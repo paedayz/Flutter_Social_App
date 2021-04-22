@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../services/database.dart';
 import '../helperFunctions/sharedpref_helper.dart';
+import './editPostScreen.dart';
 
 // ignore: must_be_immutable
 class PostDetail extends StatefulWidget {
@@ -95,7 +96,12 @@ class _PostDetailState extends State<PostDetail> {
             ),
       floatingActionButton: postData['username'] == ownUsername
           ? FloatingActionButton(
-              onPressed: () => print('testset'),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return EditPost(id: widget.id);
+                }),
+              ),
               child: Icon(Icons.edit),
             )
           : Container(),
