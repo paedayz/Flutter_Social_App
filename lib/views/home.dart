@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.only(right: 20.0),
                         ),
                         onDismissed: (direction) {
-                          print(direction);
+                          DatabaseMethods().deletePost(ds.id);
                         },
                         child: postTile(
                             ds['body'],

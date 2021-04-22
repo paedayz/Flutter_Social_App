@@ -58,4 +58,8 @@ class DatabaseMethods {
             .doc(likeId)
             .delete());
   }
+
+  Future deletePost(String postId) async {
+    return FirebaseFirestore.instance.collection('posts').doc(postId).delete();
+  }
 }
