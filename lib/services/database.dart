@@ -23,24 +23,34 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Future likePost(String postId) async {
+  Future likePost(String postId, int likeCount) async {
     var likeInfo = {
       'username': await SharedPreferenceHelper().getUserName(),
       'postId': postId
     };
+    Map<String, dynamic> updateLikeCount = {'likeCount': likeCount + 1};
     return FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
-        .collection('likes')
-        .add(likeInfo);
+        .update(updateLikeCount)
+        .then((value) => FirebaseFirestore.instance
+            .collection('posts')
+            .doc(postId)
+            .collection('likes')
+            .add(likeInfo));
   }
 
-  Future unlikePost(String postId, String likeId) async {
+  Future unlikePost(String postId, String likeId, int likeCount) async {
+    Map<String, dynamic> updateLikeCount = {'likeCount': likeCount - 1};
     return FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
-        .collection('likes')
-        .doc(likeId)
-        .delete();
+        .update(updateLikeCount)
+        .then((value) => FirebaseFirestore.instance
+            .collection('posts')
+            .doc(postId)
+            .collection('likes')
+            .doc(likeId)
+            .delete());
   }
 }

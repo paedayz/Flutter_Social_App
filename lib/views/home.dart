@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
       print('like post');
       _isLike = true;
       // var likeInfo = {};
-      DatabaseMethods().likePost(id);
+      DatabaseMethods().likePost(id, likeCount);
       setState(() {});
     }
 
@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
       print('unlike post');
       // _isLike = true;
       // var likeInfo = {};
-      DatabaseMethods().unlikePost(id, likeId);
+      DatabaseMethods().unlikePost(id, likeId, likeCount);
       // setState(() {});
     }
 
