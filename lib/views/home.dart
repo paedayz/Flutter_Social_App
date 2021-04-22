@@ -68,12 +68,10 @@ class _HomeState extends State<Home> {
   Widget postTile(String body, String postBy, String imageUrl, int likeCount,
       String id, String ownUsername) {
     likePost() {
-      print('like post');
       DatabaseMethods().likePost(id, likeCount);
     }
 
     unLikePost(String likeId) {
-      print('unlike post');
       DatabaseMethods().unlikePost(id, likeId, likeCount);
     }
 
