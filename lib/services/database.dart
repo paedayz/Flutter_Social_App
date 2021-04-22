@@ -12,6 +12,14 @@ class DatabaseMethods {
 
   Future addPost(Map postInfo) async {
     postInfo["username"] = await SharedPreferenceHelper().getUserName();
+    postInfo["imageUrl"] = await SharedPreferenceHelper().getUserProfileUrl();
     return FirebaseFirestore.instance.collection('posts').add(postInfo);
+  }
+
+  Future<Stream<QuerySnapshot>> getAllPost() async {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .orderBy('createdAt')
+        .snapshots();
   }
 }
