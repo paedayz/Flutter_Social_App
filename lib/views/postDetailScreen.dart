@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../services/database.dart';
+import '../helperFunctions/sharedpref_helper.dart';
 
 // ignore: must_be_immutable
 class PostDetail extends StatefulWidget {
@@ -14,9 +15,11 @@ class PostDetail extends StatefulWidget {
 class _PostDetailState extends State<PostDetail> {
   DocumentSnapshot detail;
   var postData;
-  var postUsername = "x";
+  var postUsername = "";
+  String ownUsername;
 
   getPostDetail() async {
+    ownUsername = await SharedPreferenceHelper().getUserName();
     detail =
         await DatabaseMethods().getPostDetail(widget.id) as DocumentSnapshot;
     postData = detail.data();
@@ -90,10 +93,10 @@ class _PostDetailState extends State<PostDetail> {
           : Center(
               child: CircularProgressIndicator(),
             ),
-      floatingActionButton: postData['username'] == 'pdayz19x'
-          ? FloatingActionButton.extended(
+      floatingActionButton: postData['username'] == ownUsername
+          ? FloatingActionButton(
               onPressed: () => print('testset'),
-              label: Text('Click'),
+              child: Icon(Icons.edit),
             )
           : Container(),
     );
