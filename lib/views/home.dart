@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../services/auth.dart';
+import './signInScreen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,6 +13,20 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Homepage'),
+        actions: [
+          InkWell(
+            onTap: () {
+              AuthMethods().signOut().then((s) {
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => SignIn()));
+              });
+            },
+            child: Container(
+              child: Icon(Icons.logout),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: Text('welcome to homepage'),
