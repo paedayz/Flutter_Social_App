@@ -28,6 +28,10 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  Future<DocumentSnapshot> getPostDetail(String postId) async {
+    return FirebaseFirestore.instance.collection('posts').doc(postId).get();
+  }
+
   Future likePost(String postId, int likeCount) async {
     var likeInfo = {
       'username': await SharedPreferenceHelper().getUserName(),

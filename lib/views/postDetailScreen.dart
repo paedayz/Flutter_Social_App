@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../services/database.dart';
 
 // ignore: must_be_immutable
 class PostDetail extends StatefulWidget {
@@ -10,8 +12,18 @@ class PostDetail extends StatefulWidget {
 }
 
 class _PostDetailState extends State<PostDetail> {
-  test() {
-    print(widget.id);
+  DocumentSnapshot detail;
+
+  getPostDetail() async {
+    detail =
+        await DatabaseMethods().getPostDetail(widget.id) as DocumentSnapshot;
+    print(detail.data()['username']);
+  }
+
+  @override
+  void initState() {
+    getPostDetail();
+    super.initState();
   }
 
   @override
@@ -23,12 +35,12 @@ class _PostDetailState extends State<PostDetail> {
       body: Center(
         child: Column(
           children: [
-            Text('${widget.id}'),
+            // Text('${detail['usrename']}'),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => test(),
+        onPressed: () => print('testset'),
         label: Text('Click'),
       ),
     );
