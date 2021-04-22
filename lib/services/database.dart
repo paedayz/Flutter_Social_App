@@ -34,4 +34,13 @@ class DatabaseMethods {
         .collection('likes')
         .add(likeInfo);
   }
+
+  Future unlikePost(String postId, String likeId) async {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('likes')
+        .doc(likeId)
+        .delete();
+  }
 }

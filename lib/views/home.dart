@@ -54,11 +54,11 @@ class _HomeState extends State<Home> {
       setState(() {});
     }
 
-    unLikePost() {
+    unLikePost(String likeId) {
       print('unlike post');
       // _isLike = true;
       // var likeInfo = {};
-      // DatabaseMethods().likePost(id);
+      DatabaseMethods().unlikePost(id, likeId);
       // setState(() {});
     }
 
@@ -114,10 +114,11 @@ class _HomeState extends State<Home> {
                           if (snapshot.hasData) {
                             var ds = snapshot.data.docs;
                             var flag = 0;
+                            var likeId = "";
                             for (var i = 0; i < ds.length; i++) {
-                              print(ds[0]['username']);
-                              if (ds[0]['username'] == ownUsername) {
+                              if (ds[i]['username'] == ownUsername) {
                                 flag = 1;
+                                likeId = ds[i].id;
                               }
                             }
 
@@ -128,7 +129,7 @@ class _HomeState extends State<Home> {
                               );
                             } else {
                               return GestureDetector(
-                                  onTap: () => unLikePost(),
+                                  onTap: () => unLikePost(likeId),
                                   child: Icon(Icons.favorite));
                             }
                           } else {
