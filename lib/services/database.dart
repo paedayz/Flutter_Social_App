@@ -13,7 +13,12 @@ class DatabaseMethods {
   Future addPost(Map postInfo) async {
     postInfo["username"] = await SharedPreferenceHelper().getUserName();
     postInfo["imageUrl"] = await SharedPreferenceHelper().getUserProfileUrl();
-    return FirebaseFirestore.instance.collection('posts').add(postInfo);
+    return FirebaseFirestore.instance.collection('posts').add(postInfo).then(
+        (value) => FirebaseFirestore.instance
+            .collection('posts')
+            .doc(value.id)
+            .collection('likes')
+            .add({"username": ""}));
   }
 
   Future<Stream<QuerySnapshot>> getAllPost() async {

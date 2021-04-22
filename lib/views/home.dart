@@ -34,8 +34,12 @@ class _HomeState extends State<Home> {
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshot.data.docs[index];
                     // print(ds['likexs']);
-                    return postTile(ds['body'], ds['username'], ds['imageUrl'],
-                        ds['likeCount'], ds.id, ownUsername);
+                    if (ds.exists) {
+                      return postTile(ds['body'], ds['username'],
+                          ds['imageUrl'], ds['likeCount'], ds.id, ownUsername);
+                    } else {
+                      return Text('test');
+                    }
                   },
                 )
               : Text('no post now');
@@ -67,6 +71,7 @@ class _HomeState extends State<Home> {
         SizedBox(width: MediaQuery.of(context).size.width / 11.5),
         Container(
           width: MediaQuery.of(context).size.width / 1.2,
+          height: 190,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
