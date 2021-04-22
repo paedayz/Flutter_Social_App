@@ -6,6 +6,7 @@ import './views/home.dart';
 import 'views/chatScreen.dart';
 import './views/postScreen.dart';
 import './views/signInScreen.dart';
+import './views/addPostScree.dart';
 
 // Function
 import './services/auth.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/chatscreen': (BuildContext context) => ChatScreen(),
         '/postscreen': (BuildContext context) => PostScreen(),
+        '/addPostScreen': (BuildContext context) => AddPostScreen(),
       },
     );
   }

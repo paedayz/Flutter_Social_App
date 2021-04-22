@@ -9,4 +9,9 @@ class DatabaseMethods {
         .doc(userId)
         .set(userInfoMap);
   }
+
+  Future addPost(Map postInfo) {
+    postInfo["username"] = SharedPreferenceHelper().getUserName();
+    return FirebaseFirestore.instance.collection('posts').add(postInfo);
+  }
 }
