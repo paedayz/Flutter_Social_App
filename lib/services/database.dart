@@ -10,8 +10,8 @@ class DatabaseMethods {
         .set(userInfoMap);
   }
 
-  Future addPost(Map postInfo) {
-    postInfo["username"] = SharedPreferenceHelper().getUserName();
+  Future addPost(Map postInfo) async {
+    postInfo["username"] = await SharedPreferenceHelper().getUserName();
     return FirebaseFirestore.instance.collection('posts').add(postInfo);
   }
 }

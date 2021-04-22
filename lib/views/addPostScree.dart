@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:social_app/services/database.dart';
 import '../services/auth.dart';
 import './signInScreen.dart';
+import '../services/database.dart';
 
 class AddPostScreen extends StatefulWidget {
   @override
@@ -12,6 +14,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   addPost() {
     print('add post');
+    var postInfo = {
+      'body': _textController.text,
+      'createdAt': DateTime.now(),
+      'likeCount': 0,
+    };
+
+    DatabaseMethods()
+        .addPost(postInfo)
+        .then((value) => Navigator.of(context).pop());
   }
 
   @override
@@ -61,7 +72,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   child: Row(
                     children: [
                       ElevatedButton(
-                        onPressed: () => print('yes'),
+                        onPressed: () => addPost(),
                         child: Text('Create'),
                       ),
                       SizedBox(
