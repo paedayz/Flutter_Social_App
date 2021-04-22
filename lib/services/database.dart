@@ -22,4 +22,16 @@ class DatabaseMethods {
         .orderBy('createdAt')
         .snapshots();
   }
+
+  Future likePost(String postId) async {
+    var likeInfo = {
+      'username': await SharedPreferenceHelper().getUserName(),
+      'postId': postId
+    };
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('likes')
+        .add(likeInfo);
+  }
 }
