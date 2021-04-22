@@ -33,12 +33,30 @@ class _HomeState extends State<Home> {
                   itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshot.data.docs[index];
-                    // print(ds['likexs']);
-                    if (ds.exists) {
+                    if (ownUsername == ds['username']) {
+                      return Dismissible(
+                        key: ValueKey(index),
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                          color: Colors.red,
+                          child: Icon(Icons.delete, color: Colors.white),
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 20.0),
+                        ),
+                        onDismissed: (direction) {
+                          print(direction);
+                        },
+                        child: postTile(
+                            ds['body'],
+                            ds['username'],
+                            ds['imageUrl'],
+                            ds['likeCount'],
+                            ds.id,
+                            ownUsername),
+                      );
+                    } else {
                       return postTile(ds['body'], ds['username'],
                           ds['imageUrl'], ds['likeCount'], ds.id, ownUsername);
-                    } else {
-                      return Text('test');
                     }
                   },
                 )
