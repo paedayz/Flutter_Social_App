@@ -56,6 +56,7 @@ class _HomeState extends State<Home> {
                             ownUsername),
                       );
                     } else {
+                      print(ds['username']);
                       return postTile(ds['body'], ds['username'],
                           ds['imageUrl'], ds['likeCount'], ds.id, ownUsername);
                     }

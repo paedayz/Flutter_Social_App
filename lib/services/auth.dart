@@ -35,11 +35,13 @@ class AuthMethods {
     User userDetails = result.user;
 
     if (result != null) {
-      SharedPreferenceHelper().saveUserEmail(userDetails.email);
-      SharedPreferenceHelper().saveUserId(userDetails.uid);
-      SharedPreferenceHelper().saveUserName(userDetails.email.split('@')[0]);
-      SharedPreferenceHelper().saveUserDisplayName(userDetails.displayName);
-      SharedPreferenceHelper().saveUserProfileUrl(userDetails.photoURL);
+      await SharedPreferenceHelper().saveUserEmail(userDetails.email);
+      await SharedPreferenceHelper().saveUserId(userDetails.uid);
+      await SharedPreferenceHelper()
+          .saveUserName(userDetails.email.split('@')[0]);
+      await SharedPreferenceHelper()
+          .saveUserDisplayName(userDetails.displayName);
+      await SharedPreferenceHelper().saveUserProfileUrl(userDetails.photoURL);
 
       Map<String, dynamic> userInfoMap = {
         'email': userDetails.email,

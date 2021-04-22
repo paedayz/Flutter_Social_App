@@ -3,6 +3,7 @@ import 'package:social_app/services/database.dart';
 import '../services/auth.dart';
 import './signInScreen.dart';
 import '../services/database.dart';
+import '../helperFunctions/sharedpref_helper.dart';
 
 class AddPostScreen extends StatefulWidget {
   @override
@@ -12,12 +13,14 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   var _textController;
 
-  addPost() {
+  addPost() async {
     print('add post');
     var postInfo = {
       'body': _textController.text,
       'createdAt': DateTime.now(),
       'likeCount': 0,
+      'username': await SharedPreferenceHelper().getUserName(),
+      'imageUrl': await SharedPreferenceHelper().getUserProfileUrl(),
     };
 
     DatabaseMethods()
