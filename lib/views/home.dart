@@ -4,6 +4,7 @@ import '../services/auth.dart';
 import './signInScreen.dart';
 import '../services/database.dart';
 import '../helperFunctions/sharedpref_helper.dart';
+import './postDetailScreen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -66,111 +67,113 @@ class _HomeState extends State<Home> {
 
   Widget postTile(String body, String postBy, String imageUrl, int likeCount,
       String id, String ownUsername) {
-    var _isLike = false;
-
     likePost() {
       print('like post');
-      _isLike = true;
-      // var likeInfo = {};
       DatabaseMethods().likePost(id, likeCount);
-      setState(() {});
     }
 
     unLikePost(String likeId) {
       print('unlike post');
-      // _isLike = true;
-      // var likeInfo = {};
       DatabaseMethods().unlikePost(id, likeId, likeCount);
-      // setState(() {});
     }
 
-    return Row(
-      children: [
-        SizedBox(width: MediaQuery.of(context).size.width / 11.5),
-        Container(
-          width: MediaQuery.of(context).size.width / 1.2,
-          height: 190,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-          ),
-          padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.only(top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.network(
-                      imageUrl,
-                      height: 40,
-                      width: 40,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    '$postBy',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
-              Text('$body'),
-              SizedBox(height: 30),
-              Container(
-                margin: const EdgeInsets.only(right: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return PostDetail(id: id);
+          }),
+        );
+      },
+      child: Row(
+        children: [
+          SizedBox(width: MediaQuery.of(context).size.width / 11.5),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.2,
+            height: 190,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+            ),
+            padding: const EdgeInsets.all(20),
+            margin: const EdgeInsets.only(top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('posts')
-                            .doc(id)
-                            .collection('likes')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            var ds = snapshot.data.docs;
-                            var flag = 0;
-                            var likeId = "";
-                            for (var i = 0; i < ds.length; i++) {
-                              if (ds[i]['username'] == ownUsername) {
-                                flag = 1;
-                                likeId = ds[i].id;
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.network(
+                        imageUrl,
+                        height: 40,
+                        width: 40,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      '$postBy',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
+                Text('$body'),
+                SizedBox(height: 30),
+                Container(
+                  margin: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('posts')
+                              .doc(id)
+                              .collection('likes')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              var ds = snapshot.data.docs;
+                              var flag = 0;
+                              var likeId = "";
+                              for (var i = 0; i < ds.length; i++) {
+                                if (ds[i]['username'] == ownUsername) {
+                                  flag = 1;
+                                  likeId = ds[i].id;
+                                }
                               }
-                            }
 
-                            if (flag == 0) {
+                              if (flag == 0) {
+                                return GestureDetector(
+                                  onTap: () => likePost(),
+                                  child: Icon(Icons.favorite_outline),
+                                );
+                              } else {
+                                return GestureDetector(
+                                    onTap: () => unLikePost(likeId),
+                                    child: Icon(Icons.favorite));
+                              }
+                            } else {
                               return GestureDetector(
                                 onTap: () => likePost(),
                                 child: Icon(Icons.favorite_outline),
                               );
-                            } else {
-                              return GestureDetector(
-                                  onTap: () => unLikePost(likeId),
-                                  child: Icon(Icons.favorite));
                             }
-                          } else {
-                            return GestureDetector(
-                              onTap: () => likePost(),
-                              child: Icon(Icons.favorite_outline),
-                            );
-                          }
-                        }),
-                    SizedBox(width: 10),
-                    Text('$likeCount'),
-                  ],
-                ),
-              )
-            ],
+                          }),
+                      SizedBox(width: 10),
+                      Text('$likeCount'),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

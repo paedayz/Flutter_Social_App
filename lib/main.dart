@@ -7,6 +7,7 @@ import 'views/chatScreen.dart';
 import './views/postScreen.dart';
 import './views/signInScreen.dart';
 import './views/addPostScree.dart';
+import './views/postDetailScreen.dart';
 
 // Function
 import './services/auth.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/chatscreen': (BuildContext context) => ChatScreen(),
         '/postscreen': (BuildContext context) => PostScreen(),
         '/addPostScreen': (BuildContext context) => AddPostScreen(),
+        // '/postDetailScreen': (BuildContext context) => PostDetail(),
       },
     );
   }
