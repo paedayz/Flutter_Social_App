@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './views/home.dart';
-import './views/chatscreen.dart';
+import 'views/chatScreen.dart';
 import './views/postScreen.dart';
 
 void main() {
