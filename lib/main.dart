@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         '/chatscreen': (BuildContext context) => ChatScreen(),
         '/postscreen': (BuildContext context) => PostScreen(),
         '/addPostScreen': (BuildContext context) => AddPostScreen(),
-        // '/postDetailScreen': (BuildContext context) => PostDetail(),
+        '/homescreen': (BuildContext context) => Home(),
       },
     );
   }

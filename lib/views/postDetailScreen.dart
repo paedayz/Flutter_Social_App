@@ -99,7 +99,7 @@ class _PostDetailState extends State<PostDetail> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return EditPost(id: widget.id);
+                  return EditPost(id: widget.id, body: postData['body']);
                 }),
               ),
               child: Icon(Icons.edit),

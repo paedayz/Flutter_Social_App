@@ -19,6 +19,13 @@ class DatabaseMethods {
             .add({"username": ""}));
   }
 
+  Future editPost(Map postInfo, String postId) async {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .update(postInfo);
+  }
+
   Future<Stream<QuerySnapshot>> getAllPost() async {
     return FirebaseFirestore.instance
         .collection('posts')
