@@ -190,6 +190,15 @@ class _HomeState extends State<Home> {
         actions: [
           InkWell(
             onTap: () {
+              Navigator.of(context).pushNamed('/chatRobby');
+            },
+            child: Container(
+              child: Icon(Icons.message),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+            ),
+          ),
+          InkWell(
+            onTap: () {
               AuthMethods().signOut().then((s) {
                 Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (context) => SignIn()));
