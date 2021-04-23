@@ -28,9 +28,16 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   getChatRoomIdByUsernames(String a, String b) {
-    if (a.substring(0, 1).codeUnitAt(0) + a.length >
-        b.substring(0, 1).codeUnitAt(0) + b.length) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
       return '$b\_$a';
+    } else if (a.substring(0, 1).codeUnitAt(0) ==
+        b.substring(0, 1).codeUnitAt(0)) {
+      if (a.substring(0, 1).codeUnitAt(0) + a.length >
+          b.substring(0, 1).codeUnitAt(0) + b.length) {
+        return '$b\_$a';
+      } else {
+        return '$a\_$b';
+      }
     } else {
       return '$a\_$b';
     }

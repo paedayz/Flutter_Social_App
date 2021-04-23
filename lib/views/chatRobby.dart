@@ -30,9 +30,16 @@ class _ChatRobbyState extends State<ChatRobby> {
   }
 
   getChatRoomIdByUsernames(String a, String b) {
-    if (a.substring(0, 1).codeUnitAt(0) + a.length >
-        b.substring(0, 1).codeUnitAt(0) + b.length) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
       return '$b\_$a';
+    } else if (a.substring(0, 1).codeUnitAt(0) ==
+        b.substring(0, 1).codeUnitAt(0)) {
+      if (a.substring(0, 1).codeUnitAt(0) + a.length >
+          b.substring(0, 1).codeUnitAt(0) + b.length) {
+        return '$b\_$a';
+      } else {
+        return '$a\_$b';
+      }
     } else {
       return '$a\_$b';
     }
@@ -300,16 +307,20 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                 ],
               ),
               SizedBox(
-                width: 140,
+                width: 100,
               ),
               Text(
                 '${timeago.format(DateTime.fromMillisecondsSinceEpoch(widget.lastMessageSendTs.millisecondsSinceEpoch))}',
                 style: TextStyle(
                   color: Colors.black38,
                 ),
-              )
+                textAlign: TextAlign.left,
+              ),
             ],
           ),
+          SizedBox(
+            height: 50,
+          )
         ],
       ),
     );

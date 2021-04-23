@@ -45,7 +45,7 @@ class AuthMethods {
 
       Map<String, dynamic> userInfoMap = {
         'email': userDetails.email,
-        'username': userDetails.email.replaceAll("@gmail.com", ""),
+        'username': userDetails.email.split('@')[0],
         'name': userDetails.displayName,
         'imgUrl': userDetails.photoURL
       };
