@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
         },
       ),
       routes: {
-        '/chatscreen': (BuildContext context) => ChatScreen(),
         '/postscreen': (BuildContext context) => PostScreen(),
         '/addPostScreen': (BuildContext context) => AddPostScreen(),
         '/homescreen': (BuildContext context) => Home(),
