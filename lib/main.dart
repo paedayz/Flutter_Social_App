@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 // Screen
 import './views/home.dart';
-import 'views/chatScreen.dart';
 import './views/postScreen.dart';
 import './views/signInScreen.dart';
 import './views/addPostScree.dart';

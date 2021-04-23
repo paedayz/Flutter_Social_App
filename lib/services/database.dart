@@ -103,7 +103,7 @@ class DatabaseMethods {
         .update(lastMessageInfoMap);
   }
 
-  createChatRoom(String chatRoomId, Map chatRoomInfoMap) async {
+  Future createChatRoom(String chatRoomId, Map chatRoomInfoMap) async {
     final snapShot = await FirebaseFirestore.instance
         .collection('chatrooms')
         .doc(chatRoomId)

@@ -97,14 +97,16 @@ class _ChatRobbyState extends State<ChatRobby> {
           'users': [myUserName, username]
         };
 
-        DatabaseMethods().createChatRoom(chatRoomId, chatRoomInfoMap);
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatScreen(username, name),
-          ),
-        );
+        DatabaseMethods()
+            .createChatRoom(chatRoomId, chatRoomInfoMap)
+            .then((value) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatScreen(username, name),
+            ),
+          );
+        });
       },
       child: Row(
         children: [
