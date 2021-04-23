@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
                     DocumentSnapshot ds = snapshot.data.docs[index];
                     if (ownUsername == ds['username']) {
                       return Dismissible(
-                        key: ValueKey(index),
+                        key: UniqueKey(),
                         direction: DismissDirection.endToStart,
                         background: Container(
                           color: Colors.red,
@@ -45,6 +45,7 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.only(right: 20.0),
                         ),
                         onDismissed: (direction) {
+                          print(direction);
                           DatabaseMethods().deletePost(ds.id);
                         },
                         child: postTile(

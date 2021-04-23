@@ -29,7 +29,7 @@ class DatabaseMethods {
   Future<Stream<QuerySnapshot>> getAllPost() async {
     return FirebaseFirestore.instance
         .collection('posts')
-        .orderBy('createdAt')
+        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 
