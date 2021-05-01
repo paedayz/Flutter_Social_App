@@ -87,13 +87,6 @@ class DatabaseMethods {
     return FirebaseFirestore.instance.collection('posts').doc(postId).delete();
   }
 
-  // Future<QuerySnapshot> getUserInfo(String username) async {
-  //   return await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .where('username', isEqualTo: username)
-  //       .get();
-  // }
-
   Future<Stream<QuerySnapshot>> getUserByUsername(String username) async {
     return FirebaseFirestore.instance
         .collection('users')
