@@ -157,7 +157,7 @@ class _ChatRobbyState extends State<ChatRobby> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Messenger Clone'),
+        title: Text('Chat Robby'),
         actions: [
           InkWell(
             onTap: () {

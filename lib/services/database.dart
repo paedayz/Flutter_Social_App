@@ -69,6 +69,21 @@ class DatabaseMethods {
   }
 
   Future deletePost(String postId) async {
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('likes')
+        .get()
+        .then((value) {
+      print(value.docs.map((e) {
+        FirebaseFirestore.instance
+            .collection('posts')
+            .doc(postId)
+            .collection('likes')
+            .doc(e.id)
+            .delete();
+      }));
+    });
     return FirebaseFirestore.instance.collection('posts').doc(postId).delete();
   }
 
