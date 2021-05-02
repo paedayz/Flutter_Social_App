@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:social_app/services/database.dart';
 import 'package:social_app/views/chatscreen.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import '../video_call/call.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ChatRoomListTile extends StatefulWidget {
   final String lastMessage, chatRoomId, myUsername, lastCallTo;
@@ -26,6 +29,27 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
     name = querySnapshot.docs[0]['name'];
     profilePicUrl = querySnapshot.docs[0]['imgUrl'];
     setState(() {});
+  }
+
+  Future<void> onJoin() async {
+    // await for camera and mic permissions before pushing video page
+    await _handleCameraAndMic(Permission.camera);
+    await _handleCameraAndMic(Permission.microphone);
+    // push video page with given channel name
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CallPage(
+          channelName: widget.chatRoomId,
+          role: ClientRole.Broadcaster,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleCameraAndMic(Permission permission) async {
+    final status = await permission.request();
+    print(status);
   }
 
   @override
@@ -81,7 +105,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            print('call');
+                            onJoin();
                           },
                           child: Container(
                             child: widget.isCalling == true &&

@@ -6,7 +6,7 @@ import 'package:social_app/services/auth.dart';
 import 'package:social_app/services/database.dart';
 import 'package:social_app/views/chatscreen.dart';
 import 'package:social_app/views/signInScreen.dart';
-import 'package:social_app/views/chatRoomListTile.dart';
+import 'package:social_app/components/chat/chatRoomListTile.dart';
 
 class ChatRobby extends StatefulWidget {
   @override
