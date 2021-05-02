@@ -17,8 +17,9 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   String chatRoomId, messageId = '';
-  Stream messageStream;
-  String myName, myProfilePic, myUserName, myEmail;
+  Stream messageStream, chatRoomDataStream;
+  String myName, myProfilePic, myUserName, myEmail, lastCallTo;
+  bool isCalling;
   TextEditingController messageTextEdittingController = TextEditingController();
 
   getMyInfoFromSharedPreference() async {
@@ -136,6 +137,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   doThisOnLaunch() async {
     await getMyInfoFromSharedPreference();
+    chatRoomDataStream = await DatabaseMethods().getChatRoomData(chatRoomId);
     getAndSetMessages();
   }
 
@@ -179,14 +181,23 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text(widget.name),
         actions: [
           GestureDetector(
-            onTap: () {
-              onJoin();
-            },
-            child: Container(
-              margin: const EdgeInsets.only(right: 20),
-              child: Icon(Icons.phone),
-            ),
-          ),
+              onTap: () {
+                onJoin();
+              },
+              child: StreamBuilder(
+                  stream: chatRoomDataStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.data['isCalling']) {
+                      return Container(
+                        margin: const EdgeInsets.only(right: 20),
+                        child: Icon(Icons.phone_callback_outlined),
+                      );
+                    }
+                    return Container(
+                      margin: const EdgeInsets.only(right: 20),
+                      child: Icon(Icons.phone),
+                    );
+                  })),
         ],
       ),
       body: Container(

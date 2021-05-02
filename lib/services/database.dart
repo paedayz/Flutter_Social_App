@@ -129,6 +129,13 @@ class DatabaseMethods {
     }
   }
 
+  Future<Stream<DocumentSnapshot>> getChatRoomData(String chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection('chatrooms')
+        .doc(chatRoomId)
+        .snapshots();
+  }
+
   Future<Stream<QuerySnapshot>> getChatRoomMessages(String chatRoomId) async {
     return FirebaseFirestore.instance
         .collection('chatrooms')
