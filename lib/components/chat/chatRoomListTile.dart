@@ -75,54 +75,58 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                   );
                 },
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
-                        profilePicUrl,
-                        height: 30,
-                        width: 30,
-                      ),
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Image.network(
+                            profilePicUrl,
+                            height: 30,
+                            width: 30,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(username),
+                                Text(
+                                  widget.lastMessage,
+                                  style: TextStyle(
+                                    color: Colors.black45,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(
                       width: 20,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(username),
-                            Text(
-                              widget.lastMessage,
+                    Container(
+                      child: widget.isCalling == true &&
+                              widget.lastCallTo == widget.myUsername
+                          ? GestureDetector(
+                              onTap: () {
+                                onJoin();
+                              },
+                              child: Icon(Icons.phone_callback_outlined))
+                          : Text(
+                              '${timeago.format(DateTime.fromMillisecondsSinceEpoch(widget.lastMessageSendTs.millisecondsSinceEpoch))}',
                               style: TextStyle(
-                                color: Colors.black45,
+                                color: Colors.black38,
                               ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          width: 100,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            onJoin();
-                          },
-                          child: Container(
-                            child: widget.isCalling == true &&
-                                    widget.lastCallTo == widget.myUsername
-                                ? Icon(Icons.phone_callback_outlined)
-                                : Text(
-                                    '${timeago.format(DateTime.fromMillisecondsSinceEpoch(widget.lastMessageSendTs.millisecondsSinceEpoch))}',
-                                    style: TextStyle(
-                                      color: Colors.black38,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                          ),
-                        ),
-                      ],
+                              textAlign: TextAlign.left,
+                            ),
                     ),
                     SizedBox(
                       height: 50,
