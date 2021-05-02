@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:social_app/helperfunctions/sharedpref_helper.dart';
 import 'package:social_app/services/auth.dart';
@@ -14,6 +15,7 @@ class ChatRobby extends StatefulWidget {
 
 class _ChatRobbyState extends State<ChatRobby> {
   bool isSearching = false;
+  bool isSomeoneCall = false;
 
   Stream userStream, chatRoomStream;
   String myName, myProfilePic, myUserName, myEmail;
@@ -64,14 +66,13 @@ class _ChatRobbyState extends State<ChatRobby> {
                   itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshot.data.docs[index];
-                    print(
-                        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-                    print(ds['isCalling']);
-                    print(
-                        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-                    return ChatRoomListTile(ds['lastMessage'], ds.id,
-                        myUserName, ds['lastMessageSendTs']);
+                    return ChatRoomListTile(
+                        ds['lastMessage'],
+                        ds.id,
+                        myUserName,
+                        ds['lastMessageSendTs'],
+                        ds['isCalling'],
+                        ds['lastCallTo']);
                   },
                 )
               : Center(child: CircularProgressIndicator());
