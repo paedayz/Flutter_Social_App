@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:social_app/helperfunctions/sharedpref_helper.dart';
 import 'package:social_app/services/database.dart';
 import 'package:random_string/random_string.dart';
+import '../components/video_call/call.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ChatScreen extends StatefulWidget {
   final String chatWithUsername, name;
@@ -136,6 +139,33 @@ class _ChatScreenState extends State<ChatScreen> {
     getAndSetMessages();
   }
 
+  Future<void> onJoin() async {
+    Map<String, dynamic> chatRoomInfoMap = {
+      'lastCallTo': widget.chatWithUsername,
+      'isCalling': true,
+    };
+    await DatabaseMethods().calling(chatRoomId, chatRoomInfoMap);
+
+    // await for camera and mic permissions before pushing video page
+    await _handleCameraAndMic(Permission.camera);
+    await _handleCameraAndMic(Permission.microphone);
+    // push video page with given channel name
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CallPage(
+          channelName: chatRoomId,
+          role: ClientRole.Broadcaster,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleCameraAndMic(Permission permission) async {
+    final status = await permission.request();
+    print(status);
+  }
+
   @override
   void initState() {
     doThisOnLaunch();
@@ -147,6 +177,17 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              onJoin();
+            },
+            child: Container(
+              margin: const EdgeInsets.only(right: 20),
+              child: Icon(Icons.phone),
+            ),
+          ),
+        ],
       ),
       body: Container(
         child: Stack(

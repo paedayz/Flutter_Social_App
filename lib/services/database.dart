@@ -152,4 +152,18 @@ class DatabaseMethods {
         .where('username', isEqualTo: username)
         .get();
   }
+
+  Future calling(String chatRoomId, Map chatRoomInfoMap) async {
+    return FirebaseFirestore.instance
+        .collection('chatrooms')
+        .doc(chatRoomId)
+        .update(chatRoomInfoMap);
+  }
+
+  Future answerCalling(String chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection('chatrooms')
+        .doc(chatRoomId)
+        .update({'isCalling': false});
+  }
 }

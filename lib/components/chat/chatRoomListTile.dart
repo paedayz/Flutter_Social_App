@@ -32,6 +32,8 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
   }
 
   Future<void> onJoin() async {
+    DatabaseMethods().answerCalling(widget.chatRoomId);
+
     // await for camera and mic permissions before pushing video page
     await _handleCameraAndMic(Permission.camera);
     await _handleCameraAndMic(Permission.microphone);

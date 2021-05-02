@@ -6,6 +6,7 @@ import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../../services/database.dart';
 
 import './settings.dart';
 
@@ -63,14 +64,11 @@ class _CallPageState extends State<CallPage> {
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
     configuration.dimensions = VideoDimensions(1920, 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
-    // var token;
-    // token =
-    //     await http.get(Uri.parse('$URI_Path/api/token/${widget.channelName}'));
+    var token;
+    token =
+        await http.get(Uri.parse('$URI_Path/api/token/${widget.channelName}'));
     await _engine.joinChannel(
-        "0066dd9d3a2d571494798400064f6c23e40IAByMWlW5/9mu7qejNCitAjP/keA1MzEpKdlUCNr8Y9nocrzlooAAAAAEAALtir+Po2PYAEAAQA+jY9g",
-        "testerx",
-        null,
-        0);
+        jsonDecode(token.body)['token'], widget.channelName, null, 0);
   }
 
   /// Create agora sdk instance and initialize
@@ -106,6 +104,7 @@ class _CallPageState extends State<CallPage> {
       });
     }, userOffline: (uid, elapsed) {
       setState(() {
+        Navigator.pop(context);
         final info = 'userOffline: $uid';
         _infoStrings.add(info);
         _users.remove(uid);
@@ -282,6 +281,7 @@ class _CallPageState extends State<CallPage> {
   }
 
   void _onCallEnd(BuildContext context) {
+    DatabaseMethods().answerCalling(widget.channelName);
     Navigator.pop(context);
   }
 
