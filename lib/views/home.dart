@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../services/auth.dart';
 import './signInScreen.dart';
 import '../services/database.dart';
@@ -57,7 +58,6 @@ class _HomeState extends State<Home> {
                             ownUsername),
                       );
                     } else {
-                      print(ds['username']);
                       return postTile(ds['body'], ds['username'],
                           ds['imageUrl'], ds['likeCount'], ds.id, ownUsername);
                     }
@@ -95,7 +95,7 @@ class _HomeState extends State<Home> {
               color: Colors.white,
             ),
             padding: const EdgeInsets.all(16),
-            margin: const EdgeInsets.only(top: 16),
+            margin: const EdgeInsets.only(bottom: 16),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -121,13 +121,14 @@ class _HomeState extends State<Home> {
                         children: [
                           Text(
                             '${postBy.toUpperCase()}',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 16),
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 4,
                           ),
                           Text(
                             '$body',
+                            style: GoogleFonts.notoSans(),
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -136,7 +137,6 @@ class _HomeState extends State<Home> {
                       Container(
                         margin: const EdgeInsets.only(
                           right: 20,
-                          top: 10,
                         ),
                         child: Row(
                           children: [
@@ -236,7 +236,9 @@ class _HomeState extends State<Home> {
         color: Colors.blue[50],
         child: Center(
           child: Stack(
-            children: [allPost()],
+            children: [
+              allPost(),
+            ],
           ),
         ),
       ),

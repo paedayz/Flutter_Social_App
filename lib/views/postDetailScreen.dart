@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../services/database.dart';
 import '../helperFunctions/sharedpref_helper.dart';
 import './editPostScreen.dart';
@@ -67,7 +68,7 @@ class _PostDetailState extends State<PostDetail> {
                           width: 10,
                         ),
                         Text(
-                          '${postData['username']}',
+                          '${postData['username'].toUpperCase()}',
                           style: TextStyle(fontSize: 17),
                         ),
                       ],
@@ -83,9 +84,8 @@ class _PostDetailState extends State<PostDetail> {
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Text(
-                        postData['body'],
-                      ),
+                      child:
+                          Text(postData['body'], style: GoogleFonts.notoSans()),
                     )
                   ],
                 ),

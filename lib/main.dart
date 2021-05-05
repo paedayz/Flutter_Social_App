@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue[600],
       ),
       home: FutureBuilder(
         future: AuthMethods().getCurrentUser(),
