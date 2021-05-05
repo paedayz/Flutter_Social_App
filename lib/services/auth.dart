@@ -47,7 +47,9 @@ class AuthMethods {
         'email': userDetails.email,
         'username': userDetails.email.split('@')[0],
         'name': userDetails.displayName,
-        'imgUrl': userDetails.photoURL
+        'imgUrl': userDetails.photoURL,
+        'isCalling': false,
+        'lastCallTo': ''
       };
 
       DatabaseMethods()

@@ -177,7 +177,7 @@ class _ChatRobbyState extends State<ChatRobby> {
               });
             },
             child: Container(
-              child: Icon(Icons.exit_to_app),
+              child: Icon(Icons.logout),
               padding: const EdgeInsets.symmetric(horizontal: 16),
             ),
           )
