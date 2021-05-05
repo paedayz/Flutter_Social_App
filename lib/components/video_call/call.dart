@@ -163,36 +163,50 @@ class _CallPageState extends State<CallPage> {
             setState(() {});
           },
           child: changeScreen
-              ? Container(
-                  child: Stack(
-                  children: <Widget>[
-                    _videoView(views[1]),
-                    new Positioned(
-                      right: 20.0,
-                      top: 30.0,
-                      child: new Container(
-                        width: 120,
-                        height: 150,
-                        child: _videoView(views[0]),
+              ? Stack(
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          _videoView(views[1]),
+
+                          // _videoView(views[0])
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 4,
+                        height: MediaQuery.of(context).size.height / 4,
+                        child: views[0],
                       ),
                     ),
                   ],
-                ))
-              : Container(
-                  child: Stack(
-                  children: <Widget>[
-                    _videoView(views[0]),
-                    new Positioned(
-                      right: 20.0,
-                      top: 30.0,
-                      child: new Container(
-                        width: 120,
-                        height: 150,
-                        child: _videoView(views[1]),
+                )
+              : Stack(
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          _videoView(views[0]),
+
+                          // _videoView(views[0])
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 4,
+                        height: MediaQuery.of(context).size.height / 4,
+                        child: views[1],
                       ),
                     ),
                   ],
-                )),
+                ),
         );
 
       default:
