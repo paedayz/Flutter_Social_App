@@ -66,13 +66,16 @@ class _ChatRobbyState extends State<ChatRobby> {
                   itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshot.data.docs[index];
-                    return ChatRoomListTile(
-                        ds['lastMessage'],
-                        ds.id,
-                        myUserName,
-                        ds['lastMessageSendTs'],
-                        ds['isCalling'],
-                        ds['lastCallTo']);
+                    return Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      child: ChatRoomListTile(
+                          ds['lastMessage'],
+                          ds.id,
+                          myUserName,
+                          ds['lastMessageSendTs'],
+                          ds['isCalling'],
+                          ds['lastCallTo']),
+                    );
                   },
                 )
               : Center(child: CircularProgressIndicator());

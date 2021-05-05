@@ -128,12 +128,10 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                               textAlign: TextAlign.left,
                             ),
                     ),
-                    SizedBox(
-                      height: 50,
-                    )
                   ],
                 ),
               ),
+              Divider()
             ],
           )
         : Container();
