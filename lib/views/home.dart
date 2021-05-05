@@ -88,87 +88,104 @@ class _HomeState extends State<Home> {
       },
       child: Row(
         children: [
-          SizedBox(width: MediaQuery.of(context).size.width / 11.5),
           Container(
-            width: MediaQuery.of(context).size.width / 1.2,
-            height: 190,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 4,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
               color: Colors.white,
             ),
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.only(top: 20),
-            child: Column(
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.only(top: 16),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
-                        imageUrl,
-                        height: 40,
-                        width: 40,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      '$postBy',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(32),
+                  child: Image.network(
+                    imageUrl,
+                    height: 40,
+                    width: 40,
+                  ),
                 ),
-                SizedBox(height: 30),
-                Text('$body'),
-                SizedBox(height: 30),
+                SizedBox(
+                  width: 16,
+                ),
                 Container(
-                  margin: const EdgeInsets.only(right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('posts')
-                              .doc(id)
-                              .collection('likes')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              var ds = snapshot.data.docs;
-                              var flag = 0;
-                              var likeId = "";
-                              for (var i = 0; i < ds.length; i++) {
-                                if (ds[i]['username'] == ownUsername) {
-                                  flag = 1;
-                                  likeId = ds[i].id;
-                                }
-                              }
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${postBy.toUpperCase()}',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            '$body',
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          right: 20,
+                          top: 10,
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 1.7,
+                            ),
+                            StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection('posts')
+                                    .doc(id)
+                                    .collection('likes')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    var ds = snapshot.data.docs;
+                                    var flag = 0;
+                                    var likeId = "";
+                                    for (var i = 0; i < ds.length; i++) {
+                                      if (ds[i]['username'] == ownUsername) {
+                                        flag = 1;
+                                        likeId = ds[i].id;
+                                      }
+                                    }
 
-                              if (flag == 0) {
-                                return GestureDetector(
-                                  onTap: () => likePost(),
-                                  child: Icon(Icons.favorite_outline),
-                                );
-                              } else {
-                                return GestureDetector(
-                                    onTap: () => unLikePost(likeId),
-                                    child: Icon(Icons.favorite));
-                              }
-                            } else {
-                              return GestureDetector(
-                                onTap: () => likePost(),
-                                child: Icon(Icons.favorite_outline),
-                              );
-                            }
-                          }),
-                      SizedBox(width: 10),
-                      Text('$likeCount'),
+                                    if (flag == 0) {
+                                      return GestureDetector(
+                                        onTap: () => likePost(),
+                                        child: Icon(Icons.favorite_outline),
+                                      );
+                                    } else {
+                                      return GestureDetector(
+                                          onTap: () => unLikePost(likeId),
+                                          child: Icon(Icons.favorite));
+                                    }
+                                  } else {
+                                    return GestureDetector(
+                                      onTap: () => likePost(),
+                                      child: Icon(Icons.favorite_outline),
+                                    );
+                                  }
+                                }),
+                            SizedBox(width: 10),
+                            Text('$likeCount'),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -187,6 +204,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: SizedBox(
+          width: 2,
+        ),
         title: Text('Homepage'),
         actions: [
           InkWell(
