@@ -158,6 +158,7 @@ class _ChatScreenState extends State<ChatScreen> {
         builder: (context) => CallPage(
           channelName: chatRoomId,
           role: ClientRole.Broadcaster,
+          friendName: widget.name,
         ),
       ),
     );

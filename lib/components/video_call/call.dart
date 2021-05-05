@@ -12,13 +12,14 @@ import './settings.dart';
 
 class CallPage extends StatefulWidget {
   /// non-modifiable channel name of the page
-  final String channelName;
+  final String channelName, friendName;
 
   /// non-modifiable client role of the page
   final ClientRole role;
 
   /// Creates a call page with given channel name.
-  const CallPage({Key key, this.channelName, this.role}) : super(key: key);
+  const CallPage({Key key, this.channelName, this.role, this.friendName})
+      : super(key: key);
 
   @override
   _CallPageState createState() => _CallPageState();
@@ -29,6 +30,9 @@ class _CallPageState extends State<CallPage> {
   final _infoStrings = <String>[];
   bool muted = false;
   RtcEngine _engine;
+  int bigScreen = 1;
+  int smallScreen = 0;
+  bool changeScreen = true;
 
   @override
   void dispose() {
@@ -145,6 +149,7 @@ class _CallPageState extends State<CallPage> {
   /// Video layout wrapper
   Widget _viewRows() {
     final views = _getRenderViews();
+
     switch (views.length) {
       case 1:
         return Container(
@@ -152,29 +157,44 @@ class _CallPageState extends State<CallPage> {
           children: <Widget>[_videoView(views[0])],
         ));
       case 2:
-        return Container(
-            child: Column(
-          children: <Widget>[
-            _expandedVideoRow([views[1]]),
-            _expandedVideoRow([views[0]]),
-          ],
-        ));
-      case 3:
-        return Container(
-            child: Column(
-          children: <Widget>[
-            _expandedVideoRow(views.sublist(0, 2)),
-            _expandedVideoRow(views.sublist(2, 3))
-          ],
-        ));
-      case 4:
-        return Container(
-            child: Column(
-          children: <Widget>[
-            _expandedVideoRow(views.sublist(0, 2)),
-            _expandedVideoRow(views.sublist(2, 4))
-          ],
-        ));
+        return GestureDetector(
+          onTap: () {
+            changeScreen = !changeScreen;
+            setState(() {});
+          },
+          child: changeScreen
+              ? Container(
+                  child: Stack(
+                  children: <Widget>[
+                    _videoView(views[1]),
+                    new Positioned(
+                      right: 20.0,
+                      top: 30.0,
+                      child: new Container(
+                        width: 120,
+                        height: 150,
+                        child: _videoView(views[0]),
+                      ),
+                    ),
+                  ],
+                ))
+              : Container(
+                  child: Stack(
+                  children: <Widget>[
+                    _videoView(views[0]),
+                    new Positioned(
+                      right: 20.0,
+                      top: 30.0,
+                      child: new Container(
+                        width: 120,
+                        height: 150,
+                        child: _videoView(views[1]),
+                      ),
+                    ),
+                  ],
+                )),
+        );
+
       default:
     }
     return Container();
@@ -300,7 +320,7 @@ class _CallPageState extends State<CallPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Agora Flutter QuickStart'),
+        title: Text('${widget.friendName}'),
         leading: Container(),
       ),
       backgroundColor: Colors.black,

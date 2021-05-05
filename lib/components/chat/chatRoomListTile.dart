@@ -42,9 +42,9 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
       context,
       MaterialPageRoute(
         builder: (context) => CallPage(
-          channelName: widget.chatRoomId,
-          role: ClientRole.Broadcaster,
-        ),
+            channelName: widget.chatRoomId,
+            role: ClientRole.Broadcaster,
+            friendName: username),
       ),
     );
   }

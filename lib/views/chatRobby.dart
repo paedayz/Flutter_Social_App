@@ -111,7 +111,12 @@ class _ChatRobbyState extends State<ChatRobby> {
       onTap: () {
         var chatRoomId = getChatRoomIdByUsernames(myUserName, username);
         Map<String, dynamic> chatRoomInfoMap = {
-          'users': [myUserName, username]
+          'users': [myUserName, username],
+          'isCalling': false,
+          'lastCallTo': '',
+          'lastMessage': '',
+          'lastMessageSendBy': '',
+          'lastMessageSendTs': DateTime.now()
         };
 
         DatabaseMethods()
